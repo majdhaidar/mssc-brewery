@@ -2,6 +2,7 @@ package haidarspringframework.msscbrewery.service;
 
 import haidarspringframework.msscbrewery.web.model.BeerDTO;
 import haidarspringframework.msscbrewery.web.model.CreateBeerDTO;
+import haidarspringframework.msscbrewery.web.model.UpdateBeerReqDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -15,9 +16,16 @@ public class BeerServiceImpl implements BeerService {
 
     @Override
     public BeerDTO saveNew(CreateBeerDTO createBeerDTO) {
-        return BeerDTO.builder().id(UUID.randomUUID())
-                .beerName(createBeerDTO.getBeerName())
-                .beerStyle(createBeerDTO.getBeerStyle())
-                .upc(createBeerDTO.getUpc()).build();
+        return BeerDTO.builder().id(UUID.randomUUID()).beerName(createBeerDTO.getBeerName()).beerStyle(createBeerDTO.getBeerStyle()).upc(createBeerDTO.getUpc()).build();
+    }
+
+    @Override
+    public void updateBeer(UUID beerId, UpdateBeerReqDTO updateBeerReqDTO) {
+        //Implement update beer process
+    }
+
+    @Override
+    public void delete(UUID beerId) {
+        //Implement delete beer process
     }
 }
