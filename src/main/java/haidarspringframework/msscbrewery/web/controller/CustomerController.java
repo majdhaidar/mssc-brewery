@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/customer")
+@RequestMapping("/api/v1/customer/")
 public class CustomerController {
 
     private final CustomerService customerService;
@@ -21,7 +21,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @GetMapping("/{customerId}")
+    @GetMapping("{customerId}")
     ResponseEntity<CustomerDTO> returnCustomerById(@PathVariable("customerId") UUID customerId) {
         return new ResponseEntity<>(customerService.getCustomerById(customerId), HttpStatus.OK);
     }
@@ -35,13 +35,13 @@ public class CustomerController {
         return new ResponseEntity(httpHeaders, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{customerId}")
+    @PutMapping("{customerId}")
     ResponseEntity updateCustomer(@PathVariable("customerId") UUID customerId, @RequestBody UpdateCustomerReqDTO updateCustomerReqDTO) {
         customerService.update(customerId, updateCustomerReqDTO);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/{customerId}")
+    @DeleteMapping("{customerId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteCustomer(@PathVariable("customerId") UUID customerId) {
         customerService.delete(customerId);
