@@ -4,12 +4,15 @@ import haidarspringframework.msscbrewery.service.BeerService;
 import haidarspringframework.msscbrewery.web.model.BeerDTO;
 import haidarspringframework.msscbrewery.web.model.CreateBeerDTO;
 import haidarspringframework.msscbrewery.web.model.UpdateBeerReqDTO;
+import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -45,5 +48,12 @@ public class BeerController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteBeer(@PathVariable("beerId") UUID beerId) {
         beerService.delete(beerId);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<List> validationErrorHandler(ConstraintViolationException e) {
+        List<String> errors = new ArrayList<>();
+        e.getConstraintViolations().forEach(constraintViolation -> errors.add(constraintViolation.getPropertyPath() + " : " + constraintViolation.getMessage()));
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 }
