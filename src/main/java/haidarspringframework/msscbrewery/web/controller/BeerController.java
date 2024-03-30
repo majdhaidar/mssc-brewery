@@ -6,15 +6,18 @@ import haidarspringframework.msscbrewery.web.model.CreateBeerDTO;
 import haidarspringframework.msscbrewery.web.model.UpdateBeerReqDTO;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Validated
 @RestController
 @RequestMapping("/api/v1/beer")
 public class BeerController {
@@ -26,12 +29,12 @@ public class BeerController {
     }
 
     @GetMapping("/{beerId}")
-    ResponseEntity<BeerDTO> getBeer(@PathVariable UUID beerId) {
+    ResponseEntity<BeerDTO> getBeer(@PathVariable @NotNull UUID beerId) {
         return new ResponseEntity<>(beerService.getBeerById(beerId), HttpStatus.OK);
     }
 
     @PostMapping
-    ResponseEntity saveNew(@RequestBody @Valid CreateBeerDTO createBeerDTO) {
+    ResponseEntity saveNew(@RequestBody @Valid @NotNull CreateBeerDTO createBeerDTO) {
         BeerDTO beerDTO = beerService.saveNew(createBeerDTO);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Location", "/api/v1/beer/" + beerDTO.getId().toString());
