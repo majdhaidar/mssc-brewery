@@ -4,7 +4,7 @@ import haidarspringframework.msscbrewery.domain.Beer;
 import haidarspringframework.msscbrewery.web.model.BeerDTO;
 import org.mapstruct.Mapper;
 
-@Mapper
+@Mapper(uses = {DateMapper.class})
 public interface BeerMapper {
 
     BeerDTO beerToBeerDTO(Beer beer);
